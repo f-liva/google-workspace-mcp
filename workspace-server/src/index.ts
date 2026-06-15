@@ -1705,8 +1705,16 @@ System labels that can be modified:
     'gmail.send',
     {
       description:
-        'Send an email message, optionally with file attachments referenced by absolute local path.',
-      inputSchema: emailComposeSchema,
+        'Send an email message, optionally with file attachments referenced by absolute local path. Pass threadId to send a threaded reply.',
+      inputSchema: {
+        ...emailComposeSchema,
+        threadId: z
+          .string()
+          .optional()
+          .describe(
+            'Reply within this Gmail thread; when set, In-Reply-To/References headers are derived from the thread\'s last message so recipients see a proper threaded reply.',
+          ),
+      },
     },
     gmailService.send,
   );
